@@ -59,6 +59,7 @@ namespace LogInService.Controllers
                     u.Roles.Add(role);
                 }
 
+                returnList.Add(u);
             }
             return returnList;
 

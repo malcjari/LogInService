@@ -39,7 +39,7 @@ namespace LogInService
 
             services.AddDbContext<MyContext>(config => {
 
-                config.UseSqlServer(Configuration.GetConnectionString("DefaultString"));
+                config.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             
             });
 

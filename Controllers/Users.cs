@@ -27,25 +27,68 @@ namespace LogInService.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+
+
         }
 
 
 
         [HttpGet]
-        public List<User> GetAllUsersAsync()
+        public async Task<List<ClientUser>> GetAllUsersAsync()
         {
-            var returnList = _context.Users.ToList();
+            List<ClientUser> returnList = new List<ClientUser>();
+
+            var tempList = _context.Users.ToList();
+
+            foreach (var item in tempList)
+            {
+                ClientUser u = new ClientUser();
+                u.Id = item.Id;
+                u.Name = item.Name;
+                u.UserName = item.UserName;
+                u.StreetNo = item.StreetNo;
+                u.City = item.City;
+                u.ZipCode = item.ZipCode;
+                u.PhoneNumber = item.PhoneNumber;
+                u.Roles = new List<string>();
+                var tempUser = await _userManager.FindByNameAsync(item.UserName);
+                var tempRoles =  await _userManager.GetRolesAsync(tempUser);
+
+                foreach (var role in tempRoles)
+                {
+                    u.Roles.Add(role);
+                }
+
+            }
             return returnList;
 
         }
 
 
         [HttpGet("{id}")]
-        public async Task<User> GetUserAsync(int id)
+        public async Task<ClientUser> GetUserAsync(int id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
 
-            return user;
+            ClientUser u = new ClientUser();
+            u.Id = user.Id;
+            u.Name = user.Name;
+            u.UserName = user.UserName;
+            u.StreetNo = user.StreetNo;
+            u.City = user.City;
+            u.ZipCode = user.ZipCode;
+            u.PhoneNumber = user.PhoneNumber;
+            u.Roles = new List<string>();
+            var tempRoles = await _userManager.GetRolesAsync(user);
+
+            foreach (var role in tempRoles)
+            {
+                u.Roles.Add(role);
+            }
+
+            
+
+            return u;
         }
 
         [Route("/Login/")]

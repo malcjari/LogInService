@@ -32,8 +32,12 @@ namespace LogInService.Controllers
 
 
         [HttpGet]
-        public List<User> GetAllUsersAsync()
+        public async Task<List<User>> GetAllUsersAsync()
         {
+            
+
+
+
             var returnList = _context.Users.ToList();
             return returnList;
 

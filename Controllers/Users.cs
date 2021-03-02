@@ -39,21 +39,6 @@ namespace LogInService.Controllers
         {
             List<ClientUser> returnList = new List<ClientUser>();
 
-            User u1 = new User();
-            u1.UserName = "ResAdmin";
-
-            var res2 = await _userManager.CreateAsync(u1, "ResAdmin123!");
-
-            u1 = await _userManager.FindByNameAsync("ResAdmin");
-
-
-            Role r = new Role();
-            r.Name = "ResAdmin";
-
-            var res = await _roleManager.CreateAsync(r);
-
-            var res3 = await _userManager.AddToRoleAsync(u1, "ResAdmin");
-
             var tempList = _context.Users.ToList();
 
             foreach (var item in tempList)
@@ -149,7 +134,23 @@ namespace LogInService.Controllers
             return returnModel;
         }
 
+        public async System.Threading.Tasks.Task InitDBAsync()
+        {
+            User u1 = new User();
+            u1.UserName = "SysAdmin";
+            var res1 = await _userManager.CreateAsync(u1, "SysAdmin123!");
 
+            User u2 = new User();
+            u2.UserName = "ConfAdmin";
+            var res2 = await _userManager.CreateAsync(u2, "ConfAdmin123!");
+
+            User u3 = new User();
+            u3.UserName = "TestTest";
+            var res3 = await _userManager.CreateAsync(u2, "TestTest123!");
+            u3.Name = "Test Testi";
+            u3.PhoneNumber = "0726384625";
+            u3.Email = "Test@Test.com";
+        }
 
         //[Route("Create/")]
         //[HttpPost]

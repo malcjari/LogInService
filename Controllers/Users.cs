@@ -28,6 +28,7 @@ namespace LogInService.Controllers
             _signInManager = signInManager;
             _roleManager = roleManager;
 
+            
 
         }
 
@@ -37,6 +38,21 @@ namespace LogInService.Controllers
         public async Task<List<ClientUser>> GetAllUsersAsync()
         {
             List<ClientUser> returnList = new List<ClientUser>();
+
+            User u1 = new User();
+            u1.UserName = "ResAdmin";
+
+            var res2 = await _userManager.CreateAsync(u1, "ResAdmin123!");
+
+            u1 = await _userManager.FindByNameAsync("ResAdmin");
+
+
+            Role r = new Role();
+            r.Name = "ResAdmin";
+
+            var res = await _roleManager.CreateAsync(r);
+
+            var res3 = await _userManager.AddToRoleAsync(u1, "ResAdmin");
 
             var tempList = _context.Users.ToList();
 
@@ -50,6 +66,7 @@ namespace LogInService.Controllers
                 u.City = item.City;
                 u.ZipCode = item.ZipCode;
                 u.PhoneNumber = item.PhoneNumber;
+                u.Email = item.Email;
                 u.Roles = new List<string>();
                 var tempUser = await _userManager.FindByNameAsync(item.UserName);
                 var tempRoles =  await _userManager.GetRolesAsync(tempUser);
@@ -79,7 +96,7 @@ namespace LogInService.Controllers
             u.City = user.City;
             u.ZipCode = user.ZipCode;
             u.PhoneNumber = user.PhoneNumber;
-            u.Roles = new List<string>();
+            u.Email = user.Email;
             var tempRoles = await _userManager.GetRolesAsync(user);
 
             foreach (var role in tempRoles)
@@ -96,7 +113,7 @@ namespace LogInService.Controllers
         [HttpPost]
         public async Task<LoginResultModel> PostAsync([FromBody] LoginModel loginModel)
         {
-
+            ClientUser u = new ClientUser();
             LoginResultModel returnModel = new LoginResultModel();
 
             returnModel.Status = false;
@@ -109,11 +126,23 @@ namespace LogInService.Controllers
                 if (logInResult)
                 {
                     returnModel.Status = true;
-                    var list = await _userManager.GetRolesAsync(user);
+                    
+                    u.Id = user.Id;
+                    u.Name = user.Name;
+                    u.UserName = user.UserName;
+                    u.StreetNo = user.StreetNo;
+                    u.City = user.City;
+                    u.ZipCode = user.ZipCode;
+                    u.PhoneNumber = user.PhoneNumber;
+                    u.Email = user.Email;
+                    returnModel.ClientUser = u;
 
-                    foreach (var item in list)
+
+                    var tempRoles = await _userManager.GetRolesAsync(user);
+
+                    foreach (var role in tempRoles)
                     {
-                        returnModel.Role.Add(item);
+                        u.Roles.Add(role);
                     }
                 }
             }

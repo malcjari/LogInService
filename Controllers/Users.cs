@@ -34,7 +34,42 @@ namespace LogInService.Controllers
         [HttpGet]
         public async Task<List<User>> GetAllUsersAsync()
         {
-            
+
+            //Kommentera här ifrån ----------------->
+
+            User u1 = new User();
+            u1.UserName = "SysAdmin";
+            User u2 = new User();
+            u2.UserName = "TestTest";
+            u2.Name = "Test Testsson";
+            User u3 = new User();
+            u3.UserName = "ConfAdmin";
+
+            await _userManager.CreateAsync(u1, "SysAdmin123!");
+            await _userManager.CreateAsync(u2, "TestTest123!");
+            await _userManager.CreateAsync(u3, "ConfAdmin123!");
+
+            Role r1 = new Role();
+            r1.Name = "SysAdmin";
+            Role r2 = new Role();
+            r2.Name = "Employee";
+            Role r3 = new Role();
+            r3.Name = "ConfAdmin";
+
+            await _roleManager.CreateAsync(r1);
+            await _roleManager.CreateAsync(r2);
+            await _roleManager.CreateAsync(r3);
+
+            var user1 = await _userManager.FindByNameAsync("SysAdmin");
+            var user2 = await _userManager.FindByNameAsync("TestTest");
+            var user3 = await _userManager.FindByNameAsync("ConfAdmin");
+
+            await _userManager.AddToRoleAsync(user1, "SysAdmin");
+            await _userManager.AddToRoleAsync(user2, "Employee");
+            await _userManager.AddToRoleAsync(user3, "ConfAdmin");
+
+            //<------------------- hit
+
 
 
 

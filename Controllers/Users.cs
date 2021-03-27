@@ -39,6 +39,7 @@ namespace LogInService.Controllers
 
 
         [HttpGet]
+
         public async Task<List<ClientUser>> GetAllUsersAsync()
         {
             List<ClientUser> returnList = new List<ClientUser>();
@@ -78,6 +79,9 @@ namespace LogInService.Controllers
                 
             }
             
+=======
+
+
             return returnList;
 
         }

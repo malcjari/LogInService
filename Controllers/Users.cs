@@ -79,7 +79,6 @@ namespace LogInService.Controllers
                 
             }
             
-=======
 
 
             return returnList;
@@ -158,7 +157,7 @@ namespace LogInService.Controllers
 
                         foreach (var role in tempRoles)
                         {
-                            u.Roles.Add(role);
+                            returnModel.Role.Add(role);
                         }
                     }
                 }

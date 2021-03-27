@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 
 namespace LogInService.Models
 {
-    public class LoginResultModel
+    public class LoginResultModelV2
     {
         public bool Status { get; set; }
-        public List<string> Role { get; set; }
+        public ClientUser ClientUser { get; set; }
 
-        public LoginResultModel()
+        public LoginResultModelV2()
         {
-            this.Role = new List<string>();
+            this.ClientUser = new ClientUser();
         }
     }
 }

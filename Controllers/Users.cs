@@ -70,12 +70,14 @@ namespace LogInService.Controllers
                     }
 
                     returnList.Add(u);
-                    return returnList;
+                    
                 }
+                return returnList;
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
+                
                 
             }
             
